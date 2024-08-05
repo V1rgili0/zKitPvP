@@ -1,5 +1,3 @@
-
-
 spawn-location:
 
 combat:
@@ -29,40 +27,21 @@ drop-settings:
   # List of rows for the
   lore:
     - "&7 "
-    - "&7Clicca qui per attivare o"
-    - "&7disattivare la raccolta di"
-    - "&7questo drop."
+    - "&7Click here to enable or"
+    - "&7disable the pick-up of"
+    - "&7this drop."
     - "&7 "
     - "&fStato: %enabled%"
 
   # The replacement for placeholder "%enabled%" if the result is true
-  enabled-text: "&attivato"
+  enabled-text: "&aenabled"
 
   # The replacement for placeholder "%enabled%" if the result is false
-  disabled-text: "&cdisattivato"
+  disabled-text: "&cdisabled"
 
 ender-pearl:
   # The amount of time to wait before being able to throw another ender pearl
   timer: 15.0
-
-tab-list:
-  # If we should enable the TAB list, supports PlaceholderAPI
-  enabled: false
-
-  # The upper part of the TAB list
-  header:
-    - " "
-    - " &b&lKITPVP"
-    - " "
-    - " &fOnline: &b%online% &8- &fPing: &b%ping%"
-    - " "
-
-  # The lower part of the TAB list
-  footer:
-    - " "
-    - " &fDiscord: &bdsc.gg/randomgang "
-    - " &fAuthor: &b@ImGqbbo#9549 "
-    - " "
 
 on-join:
   # If when inventory of the player joined is empty then we should give him a kit
@@ -81,7 +60,7 @@ chat:
 on-death:
   # All the commands to execute when a player die
   commands:
-    - 'kit base %player%'
+    - 'kit start %player%'
 
   # The amount of money to give to the killer
   money-killer: 200
@@ -107,10 +86,10 @@ axe:
 
 block-manager:
   # The time that the blocking block must remain
-  block-timer: 20.0
+  block-timer: 15.0
 
   # The time that the web block must remain
-  web-timer: 20.0
+  web-timer: 15.0
 
   # The type of the blocking block
   blocking-block: OBSIDIAN
@@ -130,16 +109,16 @@ streak:
   # The item name to give
   item-name: DIAMOND
 
-assegno:
+BankNote:
   data: 0
   material: "PAPER"
-  name: "Assegno"
+  name: "BankNote"
   glow: true
   minimum-float: 0
   maximum-float: 2
   lore:
-    - "&7Prezzo: &b$[money]"
-    - "&7Utente: &b[player]"
+    - "&7Price: &b$[money]"
+    - "&7User: &b[player]"
 
 spawn:
   # The height of the spawn

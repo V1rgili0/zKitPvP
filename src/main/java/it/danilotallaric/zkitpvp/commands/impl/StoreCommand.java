@@ -8,8 +8,8 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class StoreCommand
-        extends KitPvPCommand {
+public class StoreCommand extends KitPvPCommand {
+
     public StoreCommand() {
         super(KitPvP.getInstance(), "store", "zkitpvp.commands.store", false);
     }

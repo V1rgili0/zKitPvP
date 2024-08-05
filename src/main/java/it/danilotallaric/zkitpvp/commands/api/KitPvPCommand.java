@@ -1,19 +1,26 @@
 package it.danilotallaric.zkitpvp.commands.api;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class KitPvPCommand implements CommandExecutor {
+    private String noPermissionMsg;
 
-    private String noPermissionMsg, onlyPlayerMsg, noSubCommandFoundMsg;
-    private final String name, permission;
+    private String onlyPlayerMsg;
+
+    private String noSubCommandFoundMsg;
+
+    private final String name;
+
+    private final String permission;
+
     private final boolean playerOnly;
+
     private final JavaPlugin plugin;
 
     public KitPvPCommand(JavaPlugin plugin, String name, String permission, boolean playerOnly) {
@@ -24,19 +31,19 @@ public abstract class KitPvPCommand implements CommandExecutor {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getPermission() {
-        return permission;
+        return this.permission;
     }
 
     public boolean isPlayerOnly() {
-        return playerOnly;
+        return this.playerOnly;
     }
 
     public void registerExecutor() {
-        plugin.getCommand(name).setExecutor(this);
+        this.plugin.getCommand(this.name).setExecutor(this);
     }
 
     public void setNoPermissionMessage(String message) {
@@ -51,39 +58,33 @@ public abstract class KitPvPCommand implements CommandExecutor {
         this.onlyPlayerMsg = message;
     }
 
-    public abstract boolean execute(CommandSender sender, List<String> args);
+    public abstract boolean execute(CommandSender paramCommandSender, List<String> paramList);
 
-    @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (playerOnly && !(sender instanceof Player) && onlyPlayerMsg != null) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', onlyPlayerMsg));
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (this.playerOnly && !(sender instanceof org.bukkit.entity.Player) && this.onlyPlayerMsg != null) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', this.onlyPlayerMsg));
             return true;
         }
-
-        if (permission != null && !sender.hasPermission(permission) && noPermissionMsg != null) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMsg));
+        if (this.permission != null && !sender.hasPermission(this.permission) && this.noPermissionMsg != null) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', this.noPermissionMsg));
             return true;
         }
-
-        if (args.length > 0 && CommandHandler.getSubCommands(this).size() > 0) {
+        if (args.length > 0 && !CommandHandler.getSubCommands(this).isEmpty()) {
             List<Subcommand> subcommands = CommandHandler.getSubCommands(this);
             Subcommand subcommand = subcommands.stream().filter(sub -> sub.getName().equalsIgnoreCase(args[0])).findFirst().orElse(null);
-
             if (subcommand == null) {
-                if (noSubCommandFoundMsg != null) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noSubCommandFoundMsg));
-                }
+                if (this.noSubCommandFoundMsg != null)
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', this.noSubCommandFoundMsg));
                 return true;
             }
-
-            if (subcommand.isPlayerOnly() && !(sender instanceof Player) && onlyPlayerMsg != null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', onlyPlayerMsg));
+            if (subcommand.isPlayerOnly() && !(sender instanceof org.bukkit.entity.Player) && this.onlyPlayerMsg != null) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', this.onlyPlayerMsg));
                 return true;
             }
-
             subcommand.execute(sender, Arrays.asList(args));
+        } else {
+            execute(sender, Arrays.asList(args));
         }
-        else execute(sender, Arrays.asList(args));
         return true;
     }
 }

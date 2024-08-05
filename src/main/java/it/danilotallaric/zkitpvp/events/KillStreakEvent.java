@@ -5,35 +5,35 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 public class KillStreakEvent extends Event {
-    private Player player;
-    private int streak;
-    private static final HandlerList handlerList = new HandlerList();
+    private final Player player;
 
-    public KillStreakEvent(Player player, int streak) {
-        this.player = player;
-        this.streak = streak;
+    private final int streak;
 
-        Bukkit.broadcastMessage(ChatUtils.getFormattedText("stats.broadcast-streak")
-                .replaceAll("%player%", player.getName())
-                .replaceAll("%streak%", String.valueOf(streak)));
+    public Player getPlayer() {
+        return this.player;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlerList;
+    public int getStreak() {
+        return this.streak;
     }
 
     public static HandlerList getHandlerList() {
         return handlerList;
     }
 
-    public Player getPlayer() {
-        return player;
+    private static final HandlerList handlerList = new HandlerList();
+
+    public KillStreakEvent(Player player, int streak) {
+        this.player = player;
+        this.streak = streak;
+        Bukkit.broadcastMessage(ChatUtils.getFormattedText("stats.broadcast-streak").replaceAll("%player%", player.getName()).replaceAll("%streak%", String.valueOf(streak)));
     }
 
-    public int getStreak() {
-        return streak;
+    @NotNull
+    public HandlerList getHandlers() {
+        return handlerList;
     }
 }

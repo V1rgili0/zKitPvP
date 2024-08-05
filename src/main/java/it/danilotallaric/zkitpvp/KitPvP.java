@@ -9,11 +9,9 @@ import it.danilotallaric.zkitpvp.inventory.InventoryListener;
 import it.danilotallaric.zkitpvp.listeners.CustomListener;
 import it.danilotallaric.zkitpvp.listeners.PlayerListener;
 import it.danilotallaric.zkitpvp.placeholders.MainPlaceholder;
-import it.danilotallaric.zkitpvp.tablist.TabUpdater;
 import it.danilotallaric.zkitpvp.tasks.GeneralTask;
 import it.danilotallaric.zkitpvp.tasks.SaveTask;
 import it.danilotallaric.zkitpvp.utils.FileManager;
-import it.danilotallaric.zkitpvp.data.PlayerData;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -53,20 +51,21 @@ public final class KitPvP extends JavaPlugin implements Listener {
 
     public static KitPvP instance;
     private FileConfiguration config;
-    //Create by: ImGabbo
+    //Created by: ImGabbo
+    //Forked by: Virgili0_
     @Override
     public void onEnable() {
         instance =  this;
-        int pluginId = 18511;
+        int pluginId = 22809;
         Metrics metrics = new Metrics(this, pluginId);
-        assegni();
+        BankNote();
         metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
         KitPvP.getInstance().getServer().getPluginManager().registerEvents(KitPvP.getInstance(), KitPvP.getInstance());
 
 
         KitPvP.fileManager = new FileManager(KitPvP.instance);
 
-        Arrays.asList(new MainCommand(), new AssegnoCommand(), new InvseeCommand(), new PotionCommand(),new SpawnCommand(), new BuildCommand2(), new DropSettingsCommand(), new StoreCommand(), new FixCommand(), new DiscordCommand(), new GiveExpCommand())
+        Arrays.asList(new MainCommand(), new WithdrawCommand(), new InvseeCommand(), new PotionCommand(),new SpawnCommand(), new BuildCommand(), new DropSettingsCommand(), new StoreCommand(), new FixCommand(), new DiscordCommand(), new GiveExpCommand())
                 .forEach(KitPvPCommand::registerExecutor);
 
         Arrays.asList(new BlockListener(), new CustomListener(), new PlayerListener(), new InventoryListener())
@@ -79,9 +78,6 @@ public final class KitPvP extends JavaPlugin implements Listener {
             new MainPlaceholder().register();
         }
 
-        if (KitPvP.fileManager.getConfig().getBoolean("tab-list.enabled")) {
-            Bukkit.getScheduler().runTaskTimer(KitPvP.getInstance(), new TabUpdater(), 10L, 10L);
-        }
         KitPvP.startAlwaysDayTask();
         KitPvP.saveManager = new SaveTask();
 
@@ -104,7 +100,7 @@ public final class KitPvP extends JavaPlugin implements Listener {
             String display = itemstack.getItemMeta().getDisplayName();
             List<String> lore = itemstack.getItemMeta().getLore();
 
-            if (display.equals(getMessage("assegno.name"))) {
+            if (display.equals(getMessage("BankNote.name"))) {
                 for (String money : lore) {
                     Matcher matcher = MONEY_PATTERN.matcher(money);
 
@@ -134,7 +130,7 @@ public final class KitPvP extends JavaPlugin implements Listener {
             String display = itemstack.getItemMeta().getDisplayName();
             List<String> lore = itemstack.getItemMeta().getLore();
 
-            return display.equals(getMessage("assegno.name")) && lore.size() == KitPvP.getFileManager().getConfig().getStringList("assegno.lore").size();
+            return display.equals(getMessage("BankNote.name")) && lore.size() == KitPvP.getFileManager().getConfig().getStringList("BankNote.lore").size();
         }
         return false;
     }
@@ -176,15 +172,15 @@ public final class KitPvP extends JavaPlugin implements Listener {
     public void reloadConfiguration() {
         fileManager = new FileManager(instance);
 
-        assegni();
+        BankNote();
     }
 
-    public void assegni() {
-        baseLore = getConfig().getStringList("assegno.lore");
-        base = new ItemStack(Material.getMaterial(getConfig().getString("assegno.material", "PAPER")), 1, (short) getConfig().getInt("assegno.data"));
+    public void BankNote() {
+        baseLore = getConfig().getStringList("BankNote.lore");
+        base = new ItemStack(Material.getMaterial(getConfig().getString("BankNote.material", "PAPER")), 1, (short) getConfig().getInt("BankNote.data"));
         ItemMeta meta = base.getItemMeta();
 
-        meta.setDisplayName(colorMessage(getConfig().getString("assegno.name", "Assegno")));
+        meta.setDisplayName(colorMessage(getConfig().getString("BankNote.name", "BankNote")));
         base.setItemMeta(meta);
     }
 
@@ -213,8 +209,8 @@ public final class KitPvP extends JavaPlugin implements Listener {
     public static String formatDouble(double value) {
         NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
-        int max = KitPvP.getFileManager().getConfig().getInt("assegno.maximum-float");
-        int min = KitPvP.getFileManager().getConfig().getInt("assegno.minimum-float");
+        int max = KitPvP.getFileManager().getConfig().getInt("BankNote.maximum-float");
+        int min = KitPvP.getFileManager().getConfig().getInt("BankNote.minimum-float");
 
         nf.setMaximumFractionDigits(max);
         nf.setMinimumFractionDigits(min);
@@ -233,7 +229,7 @@ public final class KitPvP extends JavaPlugin implements Listener {
         ItemStack ret = base.clone();
         ItemMeta meta = ret.getItemMeta();
         meta.setLore(formatLore);
-        if (KitPvP.fileManager.getConfig().getBoolean("assegno.glow")) {
+        if (KitPvP.fileManager.getConfig().getBoolean("BankNote.glow")) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }

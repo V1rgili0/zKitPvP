@@ -21,7 +21,7 @@ public class InvseeCommand extends KitPvPCommand {
             player.sendMessage(ChatUtils.getFormattedText("messages.unknowcommand"));
             return false;
         }
-        if (args.size() < 1) {
+        if (args.isEmpty()) {
             player.sendMessage(ChatUtils.getFormattedText("invsee.usage"));
             return false;
         }

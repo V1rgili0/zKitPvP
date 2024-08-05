@@ -1,9 +1,9 @@
 name: zKitPvP
 version: '${project.version}'
 main: it.danilotallaric.zkitpvp.KitPvP
-authors: [ danilotallaric2 ]
+authors: [ Virgili0_ ]
 description: KitPvP plugin for Spigot/Paper servers
-softdepend: [ PlaceholderAPI ]
+softdepend: [ PlaceholderAPI, Vault ]
 commands:
   kitpvp:
     description: Main command for everything
@@ -24,9 +24,9 @@ commands:
     aliases: [ ds ]
   build:
     description: Build command
-  assegno:
-    description: assegno command
-    aliases: [ assegni ]
+  Withdraw:
+    description: Withdraw command
+    aliases: [ banknote ]
   potion:
     description: Pot command
     aliases: [ pot ]
@@ -34,6 +34,3 @@ commands:
     description: Invsee command
   store:
     description: Store command
-  vote:
-    description: Vote command
-    aliases: [ vota ]

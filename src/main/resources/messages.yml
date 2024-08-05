@@ -1,103 +1,94 @@
 messages:
-  unknowcommand: "&b&lServer&f&lName &7Comando sconosciuto."
+  unknowcommand: "&fUnknown command. Type \"help\" for help."
 
 bounties:
-  bounty-claimed: "&c%killer% &7ha riscattato la taglia di &b%player% &7da &6&l$%bounty%&7."
-  bounty-set: "&7Impostata una taglia di &6&l$%bounty% &7su &b%player%&7."
+  bounty-claimed: "&c%killer% &7redeemed the bounty of &b%player% &7of &6&l$%bounty%&7."
+  bounty-set: "&7Set a bounty of &6&l$%bounty% &7on &b%player%&7."
 
 spawn:
-  no-permission: "&cNon hai il permesso necessario per eseguire questa azione."
-  no-spawn-found: "&cIl punto di spawn non è stato trovato, contatta gli amministratori del server."
+  no-permission: "&cYou do not have the permission to perform this action."
+  no-spawn-found: "&cThe spawn point was not found, please contact the server administrators."
 
 anti-build:
-  build-mode-on: "&7Modalità costruzione &aattivata&7."
-  build-mode-off: "&7Modalità costruzione &cdisattivata&7."
+  build-mode-on: "&7Build mode &aenabled&7."
+  build-mode-off: "&7Build mode &cdisabled&7."
 
 combat:
-  command-disabled: "&cNon puoi eseguire questo comando durante il combattimento."
-
-gamemodes:
-  message: "&b&lGamemode&7: &fImpostata su "
-
+  command-disabled: "&cYou cannot execute this command during combat."
 
 stats:
-  no-permission: "&cNon hai il permesso necessario per eseguire questa azione."
-  usage-player: "&c/stats <giocatore>"
-  not-found: "&cIl giocatore richiesto non è stato trovato."
-  kills-edited: "&7Uccisioni modificate per &7%player%."
-  deaths-edited: "&7Morti modificate per &7%player%."
-  streak-edited: "&7Streak modificata per &7%player%."
-  broadcast-streak: "&a%player% &7ha raggiunto una serie di uccisioni pari a &c%streak%&7!"
+  no-permission: "&fUnknown command. Type \"help\" for help."
+  usage-player: "&c/stats <player>"
+  not-found: "&cThe player has not been found."
+  kills-edited: "&7Modified kills for &7%player%."
+  deaths-edited: "&7Deaths modified for &7%player%."
+  streak-edited: "&7Streak modified for &7%player%."
+  broadcast-streak: "&a%player% &7has reached a killing streak of &c%streak%&7!"
 
 kills:
-  default-death: "&b%player% &7è morto."
+  default-death: "&b%player% &7died."
   death:
-    - "&c%killer% &7ha squartato &b%player%"
-    - "&c%killer% &7ha usato la radice quadrata di 2 per uccidere &b%player%"
-    - "&b%player% &7è stato mangiato da &c%killer%"
-    - "&b%player% &7è diventato un ippopotamo grazie a &7%killer%"
-  assist: "&7Hai aiutato ad uccidere &c%player% &7e hai guadagnato &a$50&7."
-  kill: "&7Hai ucciso &c%player% &7e hai guadagnato &a$200&7."
+    - "&c%murderer% &7has ripped &b%player%"
+    - "&c%killer% &7used the square root of 2 to kill &b%player%"
+    - "&b%player% &7was eaten by &c%killer%"
+    - "&b%player% &7became a hippo thanks to &7%killer%"
+  assist: "&7You helped kill &c%player%&7!"
+  kill: "&7You killed &c%player%!"
 
 fix:
-  no-permission: "&cNon hai il permesso necessario per eseguire questa azione."
-  repaired: "&7Hai riparato il tuo inventario."
-  not-enough-money: "&cNon hai abbastanza denaro per eseguire questa azione."
-  no-broken-items: "&cNon hai nessun oggetto da riparare."
+  no-permission: "&fUnknown command. Type \"help\" for help."
+  repaired: "&7You have repaired your inventory."
+  not-enough-money: "&cYou do not have enough money to perform this action."
+  no-broken-items: "&cYou have no items to repair."
 
 invsee:
-  sent: "&7Hai aperto l'inventario."
-  usage: "&c/zinvsee <giocatore>"
-  player-not-found: "&cIl giocatore richiesto non è stato trovato."
+  sent: "&7You have opened the inventory."
+  usage: "&c/zinvsee <player>"
+  player-not-found: "&cThe player has not been found."
 
-assegno:
-  not-enough-money: "&cNon hai abbastanza denaro per fare questo assegno."
-  sent: "&bHai ricevuto un assegno di %soldi%."
-  usage: "&c/assegno <soldi>"
-  claim: "&bHai riscattato un assegno di %soldi%."
-  invalid-number: "&cHai messo un numero non valido."
+BankNote:
+  not-enough-money: "&cYou do not have enough money to create this check."
+  sent: "&bYou have received a check for %money%."
+  usage: "&c/BankNote <money>"
+  claim: "&bYou have redeemed a check for %money%."
+  invalid-number: "&cYou have entered an invalid number."
 
 sugar:
-  used: "&bHai utilizzato lo zucchero e ora per 10 secondi avrai &aSPEED 3&b."
-  cooldown: "&cPotrai riusare lo zucchero tra pochi secondi."
+  used: "&bYou used sugar and now have &aSPEED 3&b for 10 seconds."
+  cooldown: "&cYou can use sugar again in a few seconds."
 
 potion:
-  sent: "&7Pozioni stackate con successo.."
+  sent: "&7Potions stacked successfully."
 
 giveexp:
-  no-permission: "&cNon hai il permesso necessario per eseguire questa azione."
-  sent: "&7Hai inviato correttamente &e%levels% &7livelli a &a%name%&7."
-  player-not-found: "&cIl giocatore richiesto non è stato trovato."
-  usage: "&c/giveexp <giocatore> <quantità>"
-  not-enough-levels: "&cNon possiedi abbastanza livelli."
-
-fly:
-  enabled: "&b&lFly&7: volo &aabilitato&f."
-  disabled: "&b&lFly&7: volo &cdisabilitato&f."
+  no-permission: "&fUnknown command. Type \"help\" for help."
+  sent: "&7You have successfully sent &e%levels% &7levels to &a%name%&7."
+  player-not-found: "&cThe requested player was not found."
+  usage: "&c/giveexp <player> <amount>"
+  not-enough-levels: "&cYou do not have enough levels."
 
 store:
-  message: "&bAcquista un Rank dal nostro store ufficiale &e&nstore.servername.it&7."
+  message: "&bPurchase a Rank from our official store at &e&nstore.servername.it&7."
 
 discord:
-  message: "&bEntra nel nostro server Discord ufficiale &e&ndiscord.servername.it&7."
-vote:
-  message: "&bVota il server su &e&nvota.tuoserver.it&7"
+  message: "&bJoin our official Discord server at &e&ndiscord.servername.it&7."
+
 admin:
-  no-sub-command-found: "&cNon è stato trovato alcun sotto comando con questo nome."
-  malformed-command: "&cUso del comando non corretto, per maggiori informazioni esegui /kitpvp."
-  new-spawn-set: "&7Nuovo punto di spawn impostato."
-  player-not-found: "&cIl giocatore richiesto non è stato trovato."
-  no-permission: "&cNon hai il permesso necessario per eseguire questa azione."
-  stats-edited: "&7Statistiche per il giocatore &e%player% &7modificate correttamente."
-  plugin-reloaded: "&7Configurazione ricaricata correttamente."
-  bounty-edited: "&7Impostata una taglia di &6&l%bounty% &7su &a%player%&7."
+  no-sub-command-found: "&cNo sub-command found with this name."
+  malformed-command: "&cIncorrect command usage, for more information execute /kitpvp."
+  new-spawn-set: "&7New spawn point set."
+  player-not-found: "&cThe requested player was not found."
+  no-permission: "&cYou do not have the necessary permission to perform this action."
+  stats-edited: "&7Statistics for player &e%player% &7successfully modified."
+  plugin-reloaded: "&7Configuration successfully reloaded."
+  bounty-edited: "&7Set a bounty of &6&l%bounty% &7on &a%player%&7."
   help-command:
     - "&bzKitPvP"
     - ""
-    - "&b/kitpvp reload &7- &fRicarica la configurazione del plugin"
-    - "&b/kitpvp setstats <kills/deaths/streak> <player> <value> &7- &fImposta le statistiche di un giocatore"
-    - "&b/kitpvp setbounty <player> <value> &7- &fImposta la taglia di un giocatore"
-    - "&b/kitpvp setspawn &7- &fImposta il punto di spawn"
-    - "&b/kitpvp build &7- &fAttiva/disattiva modalità costruzione"
-    - "&b/kitpvp alert <messaggio> &7- &fInvia una messaggio a tutti i giocatori"
+    - "&b/kitpvp reload &7- &fReload the plugin configuration"
+    - "&b/kitpvp setstats <kills/deaths/streak> <player> <value> &7- &fSet a player's statistics"
+    - "&b/kitpvp setbounty <player> <value> &7- &fSet a player's bounty"
+    - "&b/kitpvp setspawn &7- &fSet the spawn point"
+    - "&b/kitpvp build &7- &fEnable/disable build mode"
+    - "&b/kitpvp alert <message> &7- &fSend a message to all players"
     - ""

@@ -1,12 +1,15 @@
 package it.danilotallaric.zkitpvp.commands.api;
 
+import java.util.List;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
-
 public abstract class Subcommand {
+    private final String name;
 
-    private final String name, permission, parent;
+    private final String permission;
+
+    private final String parent;
+
     private final boolean playerOnly;
 
     public Subcommand(String parent, String name, String permission, boolean playerOnly) {
@@ -17,21 +20,20 @@ public abstract class Subcommand {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getPermission() {
-        return permission;
+        return this.permission;
     }
 
     public String getParentCommand() {
-        return parent;
+        return this.parent;
     }
 
     public boolean isPlayerOnly() {
-        return playerOnly;
+        return this.playerOnly;
     }
 
-    public abstract void execute(CommandSender sender, List<String> args);
-
+    public abstract void execute(CommandSender paramCommandSender, List<String> paramList);
 }
