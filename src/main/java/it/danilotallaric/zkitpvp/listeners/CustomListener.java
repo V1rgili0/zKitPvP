@@ -14,10 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class CustomListener implements Listener {
     private final Set<UUID> sugarCooldown = new HashSet<>();
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         double balance = KitPvP.getEconomy().getBalance(event.getPlayer());
@@ -39,7 +42,6 @@ public class CustomListener implements Listener {
         player.getInventory().removeItem(new ItemStack(Material.SUGAR, 1));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, KitPvP.getFileManager().getConfig().getInt("sugar.duration") * 10, 2));
         player.sendMessage(ChatUtils.getFormattedText("sugar.used"));
-
 
 
     }

@@ -7,13 +7,22 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 public class BountyClaimEvent extends Event {
+    private static final HandlerList handlerList = new HandlerList();
     private final Player killed;
-
     private final Player killer;
-
     private final Location deathLocation;
-
     private final long bounty;
+
+    public BountyClaimEvent(Player killed, Player killer, Location deathLocation, long bounty) {
+        this.deathLocation = deathLocation;
+        this.killed = killed;
+        this.killer = killer;
+        this.bounty = bounty;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
 
     public Player getKilled() {
         return this.killed;
@@ -29,19 +38,6 @@ public class BountyClaimEvent extends Event {
 
     public long getBounty() {
         return this.bounty;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlerList;
-    }
-
-    private static final HandlerList handlerList = new HandlerList();
-
-    public BountyClaimEvent(Player killed, Player killer, Location deathLocation, long bounty) {
-        this.deathLocation = deathLocation;
-        this.killed = killed;
-        this.killer = killer;
-        this.bounty = bounty;
     }
 
     @NotNull

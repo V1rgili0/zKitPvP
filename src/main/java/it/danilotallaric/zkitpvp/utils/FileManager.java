@@ -1,11 +1,12 @@
 package it.danilotallaric.zkitpvp.utils;
 
-import java.io.File;
-import java.io.IOException;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public class FileManager {
     private final FileConfiguration config;
@@ -14,18 +15,18 @@ public class FileManager {
 
     private final Plugin instance;
 
+    public FileManager(Plugin plugin) {
+        this.instance = plugin;
+        this.config = saveConfig("config.yml");
+        this.messages = saveConfig("messages.yml");
+    }
+
     public FileConfiguration getConfig() {
         return this.config;
     }
 
     public FileConfiguration getMessages() {
         return this.messages;
-    }
-
-    public FileManager(Plugin plugin) {
-        this.instance = plugin;
-        this.config = saveConfig("config.yml");
-        this.messages = saveConfig("messages.yml");
     }
 
     public void saveFile(FileConfiguration configuration, File file) {
@@ -47,7 +48,7 @@ public class FileManager {
         YamlConfiguration configuration = new YamlConfiguration();
         try {
             configuration.load(file);
-        } catch (InvalidConfigurationException|IOException var4) {
+        } catch (InvalidConfigurationException | IOException var4) {
             var4.printStackTrace();
         }
         return configuration;

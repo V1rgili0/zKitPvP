@@ -2,12 +2,13 @@ package it.danilotallaric.zkitpvp.tasks;
 
 import it.danilotallaric.zkitpvp.KitPvP;
 import it.danilotallaric.zkitpvp.data.PlayerData;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class SaveTask implements Runnable {
     public void run() {
@@ -23,7 +24,7 @@ public class SaveTask implements Runnable {
             configuration.set("bounty", data.getBounty());
             configuration.set("pickup-arrows", data.pickupArrows);
             configuration.set("pickup-apples", data.pickupGoldenApple);
-            KitPvP.getFileManager().saveFile((FileConfiguration)configuration, file);
+            KitPvP.getFileManager().saveFile(configuration, file);
         });
     }
 }

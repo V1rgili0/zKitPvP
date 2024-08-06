@@ -1,20 +1,20 @@
 package it.danilotallaric.zkitpvp.inventory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class InventoryMaker implements Supplier<Inventory> {
-    private final Inventory inventory;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+public class InventoryMaker implements Supplier<Inventory> {
     public static HashMap<Integer, Consumer<InventoryClickEvent>> actions = new HashMap<>();
+    private final Inventory inventory;
 
     public InventoryMaker(int size, String title) {
         this.inventory = Bukkit.createInventory(null, size, ChatColor.translateAlternateColorCodes('&', title));

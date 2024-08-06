@@ -4,18 +4,19 @@ import it.danilotallaric.zkitpvp.KitPvP;
 import it.danilotallaric.zkitpvp.commands.api.KitPvPCommand;
 import it.danilotallaric.zkitpvp.data.PlayerData;
 import it.danilotallaric.zkitpvp.utils.ChatUtils;
-import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+
 public class BuildCommand extends KitPvPCommand {
     public BuildCommand() {
-        super((JavaPlugin)KitPvP.getInstance(), "build", "kitpvp.commands.build", true);
+        super(KitPvP.getInstance(), "build", "kitpvp.commands.build", true);
     }
 
     public boolean execute(CommandSender sender, List<String> args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         if (!player.hasPermission("zkitpvp.commands.build")) {
             player.sendMessage(ChatUtils.getFormattedText("messages.unknowcommand"));
             return false;

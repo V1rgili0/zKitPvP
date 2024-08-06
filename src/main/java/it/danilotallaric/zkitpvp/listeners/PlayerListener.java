@@ -39,7 +39,8 @@ import java.util.*;
 
 public class PlayerListener implements Listener {
     public static List<Player> falldamage = new ArrayList<>();
-    @EventHandler(priority=EventPriority.HIGH)
+
+    @EventHandler(priority = EventPriority.HIGH)
     public void onFallDamage(EntityDamageEvent entityDamageEvent) {
         if (entityDamageEvent.isCancelled()) {
             return;
@@ -47,7 +48,7 @@ public class PlayerListener implements Listener {
         if (!(entityDamageEvent.getEntity() instanceof Player)) {
             return;
         }
-        Player player = (Player)entityDamageEvent.getEntity();
+        Player player = (Player) entityDamageEvent.getEntity();
         if (entityDamageEvent.getCause() != EntityDamageEvent.DamageCause.FALL) {
             return;
         }
@@ -57,6 +58,7 @@ public class PlayerListener implements Listener {
         falldamage.remove(player);
         entityDamageEvent.setCancelled(true);
     }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
@@ -328,8 +330,7 @@ public class PlayerListener implements Listener {
             if (!data.getLastPlayer().hasMetadata("NPC")) {
                 if (data.getLastPlayer().getExp() < 0.5f) {
                     data.getLastPlayer().setExp(0.5f);
-                }
-                else {
+                } else {
                     data.getLastPlayer().setExp(0.0f);
                     data.getLastPlayer().setLevel(data.getLastPlayer().getLevel() + 1);
                 }
@@ -368,8 +369,7 @@ public class PlayerListener implements Listener {
             data.assisters.clear();
 
             KitPvP.getDataManager().updateData(killerData);
-        }
-        else
+        } else
             killed.sendMessage(ChatUtils.getFormattedText("kills.default-death").replaceAll("%player%", killed.getName()));
 
         KitPvP.getDataManager().updateData(data);

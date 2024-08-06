@@ -3,13 +3,13 @@ package it.danilotallaric.zkitpvp.commands.impl;
 import it.danilotallaric.zkitpvp.KitPvP;
 import it.danilotallaric.zkitpvp.commands.api.KitPvPCommand;
 import it.danilotallaric.zkitpvp.utils.ChatUtils;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.Potion;
+
+import java.util.List;
 
 public class PotionCommand extends KitPvPCommand {
     public PotionCommand() {
@@ -17,7 +17,7 @@ public class PotionCommand extends KitPvPCommand {
     }
 
     public boolean execute(CommandSender sender, List<String> args) {
-        Player p = (Player)sender;
+        Player p = (Player) sender;
         ItemStack[] contents;
         int length = (contents = p.getInventory().getContents()).length;
         for (int k = 0; k < length; k++) {

@@ -1,7 +1,8 @@
 package it.danilotallaric.zkitpvp.commands.api;
 
-import java.util.List;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 public abstract class Subcommand {
     private final String name;

@@ -1,29 +1,21 @@
 package it.danilotallaric.zkitpvp.items;
 
 import it.danilotallaric.zkitpvp.utils.ChatUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 public class ItemMaker implements Supplier<ItemStack> {
     private final ItemStack itemStack;
 
     private final ItemMeta itemMeta;
-
-    public ItemMeta getItemMeta() {
-        return this.itemMeta;
-    }
-
     private final List<String> lore = new ArrayList<>();
-
-    public List<String> getLore() {
-        return this.lore;
-    }
 
     public ItemMaker(Material material) {
         this.itemStack = new ItemStack(material);
@@ -34,6 +26,19 @@ public class ItemMaker implements Supplier<ItemStack> {
         this.itemStack = new ItemStack(material);
         this.itemMeta = this.itemStack.getItemMeta();
         this.itemMeta.setDisplayName(ChatUtils.getColoredText(displayName));
+    }
+
+    public ItemMeta getItemMeta() {
+        return this.itemMeta;
+    }
+
+    public List<String> getLore() {
+        return this.lore;
+    }
+
+    public ItemMaker setLore(List<String> lines) {
+        lines.forEach(line -> this.lore.add(ChatUtils.getColoredText(line)));
+        return this;
     }
 
     public void addLoreLine(String line) {
@@ -52,12 +57,7 @@ public class ItemMaker implements Supplier<ItemStack> {
     }
 
     public ItemMaker addFlag(ItemFlag flag) {
-        this.itemMeta.addItemFlags(new ItemFlag[] { flag });
-        return this;
-    }
-
-    public ItemMaker setLore(List<String> lines) {
-        lines.forEach(line -> this.lore.add(ChatUtils.getColoredText(line)));
+        this.itemMeta.addItemFlags(flag);
         return this;
     }
 

@@ -1,27 +1,22 @@
 package it.danilotallaric.zkitpvp.commands.api;
 
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class KitPvPCommand implements CommandExecutor {
-    private String noPermissionMsg;
-
-    private String onlyPlayerMsg;
-
-    private String noSubCommandFoundMsg;
-
     private final String name;
-
     private final String permission;
-
     private final boolean playerOnly;
-
     private final JavaPlugin plugin;
+    private String noPermissionMsg;
+    private String onlyPlayerMsg;
+    private String noSubCommandFoundMsg;
 
     public KitPvPCommand(JavaPlugin plugin, String name, String permission, boolean playerOnly) {
         this.plugin = plugin;

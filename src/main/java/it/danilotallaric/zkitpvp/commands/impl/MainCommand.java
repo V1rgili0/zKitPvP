@@ -4,13 +4,11 @@ import it.danilotallaric.zkitpvp.KitPvP;
 import it.danilotallaric.zkitpvp.commands.api.CommandHandler;
 import it.danilotallaric.zkitpvp.commands.api.KitPvPCommand;
 import it.danilotallaric.zkitpvp.commands.impl.subcommands.BuildCommand;
-import it.danilotallaric.zkitpvp.commands.impl.subcommands.ReloadCommand;
-import it.danilotallaric.zkitpvp.commands.impl.subcommands.SetBountyCommand;
-import it.danilotallaric.zkitpvp.commands.impl.subcommands.SetSpawnCommand;
-import it.danilotallaric.zkitpvp.commands.impl.subcommands.SetStatsCommand;
+import it.danilotallaric.zkitpvp.commands.impl.subcommands.*;
 import it.danilotallaric.zkitpvp.utils.ChatUtils;
-import java.util.List;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 public class MainCommand extends KitPvPCommand {
     public MainCommand() {

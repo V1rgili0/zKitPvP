@@ -6,28 +6,27 @@ import it.danilotallaric.zkitpvp.data.PlayerData;
 import it.danilotallaric.zkitpvp.inventory.InventoryMaker;
 import it.danilotallaric.zkitpvp.items.ItemMaker;
 import it.danilotallaric.zkitpvp.utils.ChatUtils;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public class DropSettingsCommand extends KitPvPCommand {
     private final List<String> lines = KitPvP.getFileManager().getConfig().getStringList("drop-settings.lore");
 
     public DropSettingsCommand() {
-        super((JavaPlugin)KitPvP.getInstance(), "dropsettings", "kitpvp.commands.dropsettings", true);
+        super(KitPvP.getInstance(), "dropsettings", "kitpvp.commands.dropsettings", true);
     }
 
     public boolean execute(CommandSender sender, List<String> args) {
         if (!(sender instanceof Player))
             return false;
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         PlayerData data = KitPvP.getDataManager().getPlayerData(player.getUniqueId());
-        Inventory inventory = (new InventoryMaker(27, "Impostazioni raccolta oggetti")).addItemStack(12, getGoldenApple(data)).addAction(12, event -> {
+        Inventory inventory = (new InventoryMaker(27, "Drop Settings")).addItemStack(12, getGoldenApple(data)).addAction(12, event -> {
             Inventory clickedInventory = event.getClickedInventory();
             PlayerData clickerData = KitPvP.getDataManager().getPlayerData(event.getWhoClicked().getUniqueId());
             clickerData.pickupGoldenApple = !clickerData.pickupGoldenApple;

@@ -1,13 +1,14 @@
 package it.danilotallaric.zkitpvp.data;
 
 import it.danilotallaric.zkitpvp.KitPvP;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 public class PlayerData {
     private final UUID uuid;
@@ -44,6 +45,25 @@ public class PlayerData {
 
     private double balance;
 
+    public PlayerData(UUID uuid) {
+        this.uuid = uuid;
+        YamlConfiguration configuration = new YamlConfiguration();
+        File file = new File(KitPvP.getInstance().getDataFolder().getAbsolutePath() + "/data", uuid.toString());
+        if (file.exists())
+            try {
+                configuration.load(file);
+                this.balance = configuration.getDouble("balance", 0.0D);
+                this.kills = configuration.getInt("kills", 0);
+                this.deaths = configuration.getInt("deaths", 0);
+                this.streak = configuration.getInt("streak", 0);
+                this.bounty = configuration.getLong("bounty", 0L);
+                this.pickupArrows = configuration.getBoolean("pickup-arrows", true);
+                this.pickupGoldenApple = configuration.getBoolean("pickup-apples", true);
+            } catch (InvalidConfigurationException | java.io.IOException var5) {
+                var5.printStackTrace();
+            }
+    }
+
     public void addBounty(long bounty) {
         this.bounty += bounty;
     }
@@ -62,25 +82,6 @@ public class PlayerData {
 
     public void setLastPlayer(Player lastPlayer) {
         this.lastPlayer = lastPlayer;
-    }
-
-    public PlayerData(UUID uuid) {
-        this.uuid = uuid;
-        YamlConfiguration configuration = new YamlConfiguration();
-        File file = new File(KitPvP.getInstance().getDataFolder().getAbsolutePath() + "/data", uuid.toString());
-        if (file.exists())
-            try {
-                configuration.load(file);
-                this.balance = configuration.getDouble("balance", 0.0D);
-                this.kills = configuration.getInt("kills", 0);
-                this.deaths = configuration.getInt("deaths", 0);
-                this.streak = configuration.getInt("streak", 0);
-                this.bounty = configuration.getLong("bounty", 0L);
-                this.pickupArrows = configuration.getBoolean("pickup-arrows", true);
-                this.pickupGoldenApple = configuration.getBoolean("pickup-apples", true);
-            } catch (InvalidConfigurationException|java.io.IOException var5) {
-                var5.printStackTrace();
-            }
     }
 
     public double getBalance() {

@@ -16,7 +16,7 @@ public class InvseeCommand extends KitPvPCommand {
     }
 
     public boolean execute(CommandSender sender, List<String> args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         if (!player.hasPermission("zkitpvp.commands.zinvsee")) {
             player.sendMessage(ChatUtils.getFormattedText("messages.unknowcommand"));
             return false;

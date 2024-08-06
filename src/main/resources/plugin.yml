@@ -24,7 +24,7 @@ commands:
     aliases: [ ds ]
   build:
     description: Build command
-  Withdraw:
+  withdraw:
     description: Withdraw command
     aliases: [ banknote ]
   potion:

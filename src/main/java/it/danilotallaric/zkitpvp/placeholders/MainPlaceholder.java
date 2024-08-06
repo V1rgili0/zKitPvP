@@ -16,7 +16,7 @@ public class MainPlaceholder extends PlaceholderExpansion {
     }
 
     public @NotNull String getVersion() {
-        return "1.0.1";
+        return "1.0.2";
     }
 
     public String onRequest(OfflinePlayer player, String params) {
@@ -63,7 +63,7 @@ public class MainPlaceholder extends PlaceholderExpansion {
 
     private String formatNumber(long value) {
         String number = String.format("%,d", value);
-        String[] commas = { "K", "M", "B", "T", "Q" };
+        String[] commas = {"K", "M", "B", "T", "Q"};
         String[] split = number.split(",");
         if (split.length == 1)
             return String.valueOf(value);

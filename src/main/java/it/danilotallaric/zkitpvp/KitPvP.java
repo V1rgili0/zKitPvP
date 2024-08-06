@@ -14,6 +14,7 @@ import it.danilotallaric.zkitpvp.tasks.SaveTask;
 import it.danilotallaric.zkitpvp.utils.FileManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,7 +32,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -46,16 +46,136 @@ import java.util.regex.Pattern;
 
 public final class KitPvP extends JavaPlugin implements Listener {
     private static final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
+    public static KitPvP instance;
+    public static PlayerDataManager dataManager;
+    public static BlockTask blockManager;
+    public static SaveTask saveManager;
+    public static FileManager fileManager;
+    public static Economy economy;
     private static List<String> baseLore;
     private static ItemStack base;
-
-    public static KitPvP instance;
     private FileConfiguration config;
+
+    public static double getBanknoteAmount(ItemStack itemstack) {
+        if (itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
+            String display = itemstack.getItemMeta().getDisplayName();
+            List<String> lore = itemstack.getItemMeta().getLore();
+
+            if (display.equals(getMessage("BankNote.name"))) {
+                for (String money : lore) {
+                    Matcher matcher = MONEY_PATTERN.matcher(money);
+
+                    if (matcher.find()) {
+                        String amount = matcher.group(1);
+                        return Double.parseDouble(amount.replaceAll(",", ""));
+
+
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static String getMessage(String path) {
+        if (!KitPvP.getFileManager().getConfig().isString(path)) {
+            return path;
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', KitPvP.getFileManager().getConfig().getString(path));
+    }
+
+    public static boolean isBanknote(ItemStack itemstack) {
+        if (itemstack.getType() == base.getType() && itemstack.getDurability() == base.getDurability()
+                && itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
+            String display = itemstack.getItemMeta().getDisplayName();
+            List<String> lore = itemstack.getItemMeta().getLore();
+
+            return display.equals(getMessage("BankNote.name")) && lore.size() == KitPvP.getFileManager().getConfig().getStringList("BankNote.lore").size();
+        }
+        return false;
+    }
+
+    public static void startAlwaysDayTask() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                World world = Bukkit.getWorlds().get(0);
+                world.setTime(1000);
+            }
+        }.runTaskTimer(KitPvP.getInstance(), 0, 600);
+    }
+
+    public static String colorMessage(String message) {
+        if (message == null) {
+            return message;
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public static String formatDouble(double value) {
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+
+        int max = KitPvP.getFileManager().getConfig().getInt("BankNote.maximum-float");
+        int min = KitPvP.getFileManager().getConfig().getInt("BankNote.minimum-float");
+
+        nf.setMaximumFractionDigits(max);
+        nf.setMinimumFractionDigits(min);
+        return nf.format(value);
+    }
+
+    public static ItemStack createBanknote(String creatorName, double amount) {
+        if (creatorName.equals("CONSOLE")) {
+            creatorName = "CONSOLE";
+        }
+        List<String> formatLore = new ArrayList<String>();
+
+        for (String baseLore : KitPvP.baseLore) {
+            formatLore.add(colorMessage(baseLore.replace("[money]", formatDouble(amount)).replace("[player]", creatorName)));
+        }
+
+        ItemStack ret = base.clone();
+        ItemMeta meta = ret.getItemMeta();
+        meta.setLore(formatLore);
+        if (KitPvP.fileManager.getConfig().getBoolean("BankNote.glow")) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+
+        ret.setItemMeta(meta);
+
+        return ret;
+    }
+
+    public static KitPvP getInstance() {
+        return instance;
+    }
+
+    public static PlayerDataManager getDataManager() {
+        return dataManager;
+    }
+
+    public static BlockTask getBlockManager() {
+        return blockManager;
+    }
+
+    public static SaveTask getSaveManager() {
+        return saveManager;
+    }
+
+    public static FileManager getFileManager() {
+        return fileManager;
+    }
+
+    public static Economy getEconomy() {
+        return economy;
+    }
+
     //Created by: ImGabbo
     //Forked by: Virgili0_
     @Override
     public void onEnable() {
-        instance =  this;
+        instance = this;
         int pluginId = 22809;
         Metrics metrics = new Metrics(this, pluginId);
         BankNote();
@@ -65,7 +185,7 @@ public final class KitPvP extends JavaPlugin implements Listener {
 
         KitPvP.fileManager = new FileManager(KitPvP.instance);
 
-        Arrays.asList(new MainCommand(), new WithdrawCommand(), new InvseeCommand(), new PotionCommand(),new SpawnCommand(), new BuildCommand(), new DropSettingsCommand(), new StoreCommand(), new FixCommand(), new DiscordCommand(), new GiveExpCommand())
+        Arrays.asList(new MainCommand(), new WithdrawCommand(), new InvseeCommand(), new PotionCommand(), new SpawnCommand(), new BuildCommand(), new DropSettingsCommand(), new StoreCommand(), new FixCommand(), new DiscordCommand(), new GiveExpCommand())
                 .forEach(KitPvPCommand::registerExecutor);
 
         Arrays.asList(new BlockListener(), new CustomListener(), new PlayerListener(), new InventoryListener())
@@ -93,48 +213,6 @@ public final class KitPvP extends JavaPlugin implements Listener {
 
     }
 
-
-
-    public static double getBanknoteAmount(ItemStack itemstack) {
-        if (itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
-            String display = itemstack.getItemMeta().getDisplayName();
-            List<String> lore = itemstack.getItemMeta().getLore();
-
-            if (display.equals(getMessage("BankNote.name"))) {
-                for (String money : lore) {
-                    Matcher matcher = MONEY_PATTERN.matcher(money);
-
-                    if (matcher.find()) {
-                        String amount = matcher.group(1);
-                        return Double.parseDouble(amount.replaceAll(",", ""));
-
-
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-
-
-    public static String getMessage(String path) {
-        if (!KitPvP.getFileManager().getConfig().isString(path)) {
-            return path;
-        }
-
-        return ChatColor.translateAlternateColorCodes('&', KitPvP.getFileManager().getConfig().getString(path));
-    }
-    public static boolean isBanknote(ItemStack itemstack) {
-        if (itemstack.getType() == base.getType() && itemstack.getDurability() == base.getDurability()
-                && itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
-            String display = itemstack.getItemMeta().getDisplayName();
-            List<String> lore = itemstack.getItemMeta().getLore();
-
-            return display.equals(getMessage("BankNote.name")) && lore.size() == KitPvP.getFileManager().getConfig().getStringList("BankNote.lore").size();
-        }
-        return false;
-    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         final Block brokenBlock = event.getBlock();
@@ -159,16 +237,6 @@ public final class KitPvP extends JavaPlugin implements Listener {
         }
     }
 
-    public static void startAlwaysDayTask() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                World world = Bukkit.getWorlds().get(0);
-                world.setTime(1000);
-            }
-        }.runTaskTimer(KitPvP.getInstance(), 0, 600);
-    }
-
     public void reloadConfiguration() {
         fileManager = new FileManager(instance);
 
@@ -187,7 +255,8 @@ public final class KitPvP extends JavaPlugin implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
-        if (playerInteractEvent.getAction() != Action.RIGHT_CLICK_BLOCK || playerInteractEvent.getClickedBlock().getType() != Material.HOPPER) return;
+        if (playerInteractEvent.getAction() != Action.RIGHT_CLICK_BLOCK || playerInteractEvent.getClickedBlock().getType() != Material.HOPPER)
+            return;
         Inventory inventory = Bukkit.createInventory(null, 54, "Cestino");
         player.openInventory(inventory);
         playerInteractEvent.setCancelled(true);
@@ -199,85 +268,9 @@ public final class KitPvP extends JavaPlugin implements Listener {
         blockDamageEvent.setCancelled(true);
     }
 
-    public static String colorMessage(String message) {
-        if (message == null) {
-            return message;
-        }
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public static String formatDouble(double value) {
-        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
-
-        int max = KitPvP.getFileManager().getConfig().getInt("BankNote.maximum-float");
-        int min = KitPvP.getFileManager().getConfig().getInt("BankNote.minimum-float");
-
-        nf.setMaximumFractionDigits(max);
-        nf.setMinimumFractionDigits(min);
-        return nf.format(value);
-    }
-    public static ItemStack createBanknote(String creatorName, double amount) {
-        if (creatorName.equals("CONSOLE")) {
-            creatorName = "CONSOLE";
-        }
-        List<String> formatLore = new ArrayList<String>();
-
-        for (String baseLore : KitPvP.baseLore) {
-            formatLore.add(colorMessage(baseLore.replace("[money]", formatDouble(amount)).replace("[player]", creatorName)));
-        }
-
-        ItemStack ret = base.clone();
-        ItemMeta meta = ret.getItemMeta();
-        meta.setLore(formatLore);
-        if (KitPvP.fileManager.getConfig().getBoolean("BankNote.glow")) {
-            meta.addEnchant(Enchantment.DURABILITY, 1, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-
-        ret.setItemMeta(meta);
-
-        return ret;
-    }
-
     @Override
     public void onDisable() {
         if (saveManager == null) return;
         saveManager.run();
-    }
-
-
-
-    public static KitPvP getInstance() {
-        return instance;
-    }
-
-    public static PlayerDataManager dataManager;
-
-    public static PlayerDataManager getDataManager() {
-        return dataManager;
-    }
-
-    public static BlockTask blockManager;
-
-    public static BlockTask getBlockManager() {
-        return blockManager;
-    }
-
-    public static SaveTask saveManager;
-
-    public static SaveTask getSaveManager() {
-        return saveManager;
-    }
-
-    public static FileManager fileManager;
-
-    public static FileManager getFileManager() {
-        return fileManager;
-    }
-
-    public static Economy economy;
-
-    public static Economy getEconomy() {
-        return economy;
     }
 }

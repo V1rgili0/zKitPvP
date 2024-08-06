@@ -31,7 +31,7 @@ drop-settings:
     - "&7disable the pick-up of"
     - "&7this drop."
     - "&7 "
-    - "&fStato: %enabled%"
+    - "&fStatus: %enabled%"
 
   # The replacement for placeholder "%enabled%" if the result is true
   enabled-text: "&aenabled"
