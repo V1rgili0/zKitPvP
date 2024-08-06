@@ -22,7 +22,7 @@ This fork of zKitPvP is optimised for large networks and many unnecessary functi
 # Commands:
 - /fix - To fix items in the Inventory;
 - /spawn - To return to the spawn point;
-- /BankNote <money> - To create a cheque;
+- /withdraw <money> - To create a cheque;
 - /store - Command to show the server's website;
 - /discord - Command to show the server's discord channel;
 - /pot - Command to stack multiple equal potions;
